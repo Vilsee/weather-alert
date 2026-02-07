@@ -79,17 +79,27 @@ SentinelWeather can operate as:
 ### Landing Page
 The marketing page introduces SentinelWeather with a stunning hero section, 3-step process explanation, use cases, and pricing plans.
 
+![Landing Page](docs/screenshots/landing.png)
+
 ### Dashboard
 The main control center featuring a Safety Score dial (0-100), current weather conditions, live radar map, and key metrics (UV Index, Visibility, Dew Point, Air Quality).
+
+![Dashboard](docs/screenshots/dashboard.png)
 
 ### Alerts
 Real-time alert management with severity-based filtering (Emergency, Warning, Advisory), live radar previews, and a regional overview sidebar.
 
+![Alerts](docs/screenshots/alerts.png)
+
 ### Settings
 User preferences including measurement units, alert sensitivity toggles, notification channels, quiet hours, and monitored locations management.
 
+![Settings](docs/screenshots/settings.png)
+
 ### Admin Dashboard
-Operations command center with system health stats, alert frequency charts (Recharts), emergency broadcast controls, and comprehensive alert history logs.
+Operations command center with system health stats, alert frequency charts, emergency broadcast controls, and comprehensive alert history logs.
+
+![Admin Dashboard](docs/screenshots/admin.png)
 
 ---
 
