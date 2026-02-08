@@ -74,34 +74,110 @@ SentinelWeather can operate as:
 
 ---
 
-## 📸 Screenshots
+## 📸 Application Pages
 
-### Landing Page
+> **Total Pages: 9** | Run `npm run dev` in the frontend folder and visit `http://localhost:5173/`
+
+### 🗺️ Complete Route Map
+
+| Route | Page | Category | Description |
+|-------|------|----------|-------------|
+| `/` | Landing Page | Core | Marketing homepage with hero, use cases, and pricing |
+| `/dashboard` | Dashboard | Core | Main control center with safety score and weather data |
+| `/alerts` | Alerts | Core | Real-time alert management with severity filtering |
+| `/settings` | Settings | Core | User preferences and notification configuration |
+| `/admin` | Admin Dashboard | Core | Operations command center for system management |
+| `/health` | Health Dashboard | Advanced | Biometric monitoring with AI safety recommendations |
+| `/team` | Team Tracker | Advanced | Expedition team coordination with live vitals |
+| `/route` | Route Planner | Advanced | Weather-integrated route planning with waypoints |
+| `/maritime` | Maritime Safety | Advanced | Nautical navigation with tide and sea state data |
+
+---
+
+### 🏠 Core Features
+
+#### Landing Page (`/`)
 The marketing page introduces SentinelWeather with a stunning hero section, 3-step process explanation, use cases, and pricing plans.
 
 ![Landing Page](docs/screenshots/landing.png)
 
-### Dashboard
+#### Dashboard (`/dashboard`)
 The main control center featuring a Safety Score dial (0-100), current weather conditions, live radar map, and key metrics (UV Index, Visibility, Dew Point, Air Quality).
 
 ![Dashboard](docs/screenshots/dashboard.png)
 
-### Alerts
+#### Alerts (`/alerts`)
 Real-time alert management with severity-based filtering (Emergency, Warning, Advisory), live radar previews, and a regional overview sidebar.
 
 ![Alerts](docs/screenshots/alerts.png)
 
-### Settings
+#### Settings (`/settings`)
 User preferences including measurement units, alert sensitivity toggles, notification channels, quiet hours, and monitored locations management.
 
 ![Settings](docs/screenshots/settings.png)
 
-### Admin Dashboard
+#### Admin Dashboard (`/admin`)
 Operations command center with system health stats, alert frequency charts, emergency broadcast controls, and comprehensive alert history logs.
 
 ![Admin Dashboard](docs/screenshots/admin.png)
 
 ---
+
+### 🚀 Advanced Features (Demo MVP)
+
+#### Health Dashboard (`/health`)
+**Biometric Health Monitoring** - Real-time physiological telemetry with wearable device integration.
+
+- ❤️ **Heart Rate Gauge** - Circular SVG gauge with neon green glow effect
+- 🫁 **SpO2 Level** - Blood oxygen saturation monitoring
+- 🌡️ **Core Temperature** - Body temperature with normal range indicator
+- 🧠 **Stress Meter** - Gradient-based physiological stress visualization
+- 😴 **Sleep Analysis** - Deep/REM sleep breakdown with percentages
+- ⚡ **Recovery Score** - Overall readiness indicator (0-100%)
+- 🤖 **AI Safety Banner** - Context-aware recommendations based on conditions
+
+> *Design: Space Grotesk font, glassmorphism cards, neon green (#0df20d) accent theme*
+
+#### Team Tracker (`/team`)
+**Expedition Coordination** - Multi-person tracking with real-time vitals and location data.
+
+- 🗺️ **Topographic Map** - SVG-based terrain visualization with contour lines
+- 📍 **Team Markers** - Clickable avatars with status indicators (pulsing for leader)
+- 💓 **Vitals Grid** - 4-column display (HR, O2, Altitude, Battery) per member
+- ⚠️ **Critical Alerts** - Red-highlighted cards for members in danger
+- 🚨 **Emergency SOS** - One-tap satellite distress signal activation
+- 📡 **Live Uplink** - Real-time sync status with team coordination server
+
+> *Design: Dark expedition theme with green (#0df20d) and red (#ff4d4d) status indicators*
+
+#### Route Planner (`/route`)
+**Weather-Integrated Planning** - Intelligent route analysis with hazard prediction.
+
+- 🛤️ **Waypoint Timeline** - Vertical gradient line connecting route points
+- ⛅ **Weather Forecast** - Predicted conditions at each waypoint arrival time
+- 📊 **Elevation Chart** - SVG profile with danger zone overlay
+- 🎯 **Safety Scores** - Color-coded risk assessment per segment
+- 🎒 **Gear Checklist** - AI-generated equipment recommendations
+- 🤖 **AI Protocol** - Safety recommendations based on route analysis
+
+> *Design: Blue (#0d7ff2) accent theme with gradient safety indicators*
+
+#### Maritime Dashboard (`/maritime`)
+**Nautical Safety & Navigation** - Comprehensive marine monitoring system.
+
+- 🧭 **Nautical Chart** - Grid overlay with bathymetry gradient background
+- 🚢 **AIS Markers** - Ship icons with hover tooltips (SOG, COG, CPA)
+- ⚠️ **Reef Hazards** - Pulsing warning circles for shallow areas
+- 🌊 **Tide Panel** - SVG tide graph with high/low predictions
+- 💨 **Sea State** - Beaufort scale indicator with swell/wind data
+- 📏 **Depth Sounder** - Real-time sonar profile visualization
+- 📡 **Collision Radar** - AI-powered proximity warning system
+- 🆘 **EPIRB Button** - Emergency Position Indicating Radio Beacon
+
+> *Design: Maritime blue theme with glassmorphism panels and scanline effects*
+
+---
+
 
 ## 🎨 Alert Severity System
 
@@ -284,11 +360,49 @@ docker-compose down
 
 ---
 
-## � Roadmap
+## 🗺 Roadmap
 
+> 📖 See [Advanced Features Roadmap](docs/ADVANCED_FEATURES_ROADMAP.md) for detailed specifications.
+
+### Phase 1: Core Platform (Current)
+- [x] **Weather Data Integration** - Multi-source weather API with real-time alerts
+- [x] **Graded Alert System** - 4-tier severity levels with actionable recommendations
+- [x] **Dashboard & UI** - Real-time monitoring with safety score visualization
+- [x] **Admin Controls** - System health, analytics, and emergency broadcast
+
+### Phase 2: Enhanced Environmental Intelligence
+- [ ] **Extended Weather Parameters** - UV index, air quality, visibility, atmospheric pressure
 - [ ] **Route Planning** - AI-calculated travel routes with weather risk analysis
-- [ ] **Time-based Predictions** - Weather conditions at specific future times
-- [ ] **GIS Integration** - Geographical location information system support
+- [ ] **Time-based Predictions** - Weather conditions at specific future times along routes
+- [ ] **GIS Integration** - Terrain analysis, campsite safety, hazard mapping
+
+### Phase 3: Biometric Health Monitoring
+- [ ] **Smart Wearable Integration** - Apple Watch, Garmin, Fitbit, Xiaomi via Bluetooth
+- [ ] **Vital Signs Monitoring** - Heart rate, SpO2, body temperature, blood pressure
+- [ ] **Advanced Health Metrics** - HRV, stress levels, VO2max, body energy score
+- [ ] **Sleep Quality Analysis** - Recovery scoring for multi-day expeditions
+- [ ] **Women's Health Features** - Temperature tracking, cycle prediction
+
+### Phase 4: AI-Powered Safety Intelligence
+- [ ] **Unified Decision Engine** - Weather + Health + Terrain AI analysis
+- [ ] **Graded Safety Recommendations** - Continue/Rest/Stop/Shelter/Evacuate/Medical
+- [ ] **Predictive Risk Assessment** - Pre-trip safety analysis with gear checklists
+- [ ] **Explainable AI** - Clear reasoning for all safety decisions
+
+### Phase 5: Team Coordination & Emergency Response
+- [ ] **Multi-Person Tracking** - Real-time team location, distance, bearing
+- [ ] **Signal Coverage Mapping** - Cell tower and satellite signal prediction
+- [ ] **Command Center Integration** - Authorized monitoring for expedition teams
+- [ ] **Emergency Power-Saving Mode** - Critical battery survival mode
+- [ ] **Voice Recording & AI Safety Monitor** - Distress detection for team safety
+
+### Phase 6: Maritime & Aquatic Safety (Optional)
+- [ ] **Maritime Positioning** - GPS, BeiDou, AIS, satellite phone integration
+- [ ] **Anti-Collision System** - Ship-to-ship, ship-to-reef warnings
+- [ ] **Marine Equipment Integration** - Depth sounder, sonar, echo sounder
+- [ ] **Sea Conditions Alerts** - Wave height, tidal information, marine fog
+
+### Platform Expansion
 - [ ] **Mobile Apps** - Native iOS and Android applications
 - [ ] **SMS/Voice Alerts** - Alternative notification channels
 - [ ] **Offline Mode** - Cached alerts for areas with poor connectivity

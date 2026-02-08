@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 
 export default function AdminDashboard() {
@@ -52,10 +53,10 @@ export default function AdminDashboard() {
                     </div>
 
                     <nav style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <a href="#" style={{ padding: '8px 16px', color: 'white', textDecoration: 'none', fontSize: '14px', fontWeight: 500, borderBottom: '2px solid #3b82f6' }}>Dashboard</a>
-                        <a href="#" style={{ padding: '8px 16px', color: '#94a3b8', textDecoration: 'none', fontSize: '14px' }}>Alert Logs</a>
-                        <a href="#" style={{ padding: '8px 16px', color: '#94a3b8', textDecoration: 'none', fontSize: '14px' }}>Sensor Map</a>
-                        <a href="#" style={{ padding: '8px 16px', color: '#94a3b8', textDecoration: 'none', fontSize: '14px' }}>Regional Config</a>
+                        <Link to="/admin" style={{ padding: '8px 16px', color: 'white', textDecoration: 'none', fontSize: '14px', fontWeight: 500, borderBottom: '2px solid #3b82f6' }}>Dashboard</Link>
+                        <Link to="/alerts" style={{ padding: '8px 16px', color: '#94a3b8', textDecoration: 'none', fontSize: '14px' }}>Alert Logs</Link>
+                        <Link to="/team" style={{ padding: '8px 16px', color: '#94a3b8', textDecoration: 'none', fontSize: '14px' }}>Sensor Map</Link>
+                        <Link to="/settings" style={{ padding: '8px 16px', color: '#94a3b8', textDecoration: 'none', fontSize: '14px' }}>Regional Config</Link>
                     </nav>
                 </div>
 

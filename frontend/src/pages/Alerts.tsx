@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 interface AlertData {
     id: string;
@@ -82,10 +83,10 @@ export default function Alerts() {
 
                     {/* Nav Links */}
                     <nav style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <a href="/" style={{ padding: '8px 16px', color: '#94a3b8', textDecoration: 'none', fontSize: '14px' }}>Dashboard</a>
-                        <a href="/alerts" style={{ padding: '8px 16px', color: 'white', textDecoration: 'none', fontSize: '14px', fontWeight: 600, borderBottom: '2px solid white' }}>Alerts</a>
-                        <a href="#" style={{ padding: '8px 16px', color: '#94a3b8', textDecoration: 'none', fontSize: '14px' }}>Radar Map</a>
-                        <a href="#" style={{ padding: '8px 16px', color: '#94a3b8', textDecoration: 'none', fontSize: '14px' }}>Historical Data</a>
+                        <Link to="/dashboard" style={{ padding: '8px 16px', color: '#94a3b8', textDecoration: 'none', fontSize: '14px' }}>Dashboard</Link>
+                        <Link to="/alerts" style={{ padding: '8px 16px', color: 'white', textDecoration: 'none', fontSize: '14px', fontWeight: 600, borderBottom: '2px solid white' }}>Alerts</Link>
+                        <Link to="/maritime" style={{ padding: '8px 16px', color: '#94a3b8', textDecoration: 'none', fontSize: '14px' }}>Radar Map</Link>
+                        <Link to="/route" style={{ padding: '8px 16px', color: '#94a3b8', textDecoration: 'none', fontSize: '14px' }}>Historical Data</Link>
                     </nav>
                 </div>
 

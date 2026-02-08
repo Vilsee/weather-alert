@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Settings() {
     const [tempUnit, setTempUnit] = useState<'celsius' | 'fahrenheit'>('celsius');
@@ -10,6 +11,7 @@ export default function Settings() {
     const [smsAlerts, setSmsAlerts] = useState(false);
     const [pushNotifications, setPushNotifications] = useState(true);
     const [quietHours, setQuietHours] = useState(true);
+    const [saved, setSaved] = useState(false);
 
     const locations = [
         { name: 'Home Office', location: 'San Francisco, CA', coords: '37.7749° N, 122.4194° W', active: true },
@@ -33,6 +35,11 @@ export default function Settings() {
             }}></span>
         </button>
     );
+
+    const handleSave = () => {
+        setSaved(true);
+        setTimeout(() => setSaved(false), 2000);
+    };
 
     return (
         <div style={{ minHeight: '100vh', background: '#0f1221' }}>
@@ -62,9 +69,9 @@ export default function Settings() {
                 </div>
 
                 <nav style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-                    <a href="/" style={{ color: '#94a3b8', textDecoration: 'none', fontSize: '14px' }}>Dashboard</a>
-                    <a href="#" style={{ color: '#94a3b8', textDecoration: 'none', fontSize: '14px' }}>Live Map</a>
-                    <a href="#" style={{ color: '#94a3b8', textDecoration: 'none', fontSize: '14px' }}>Forecast</a>
+                    <Link to="/dashboard" style={{ color: '#94a3b8', textDecoration: 'none', fontSize: '14px' }}>Dashboard</Link>
+                    <Link to="/maritime" style={{ color: '#94a3b8', textDecoration: 'none', fontSize: '14px' }}>Live Map</Link>
+                    <Link to="/route" style={{ color: '#94a3b8', textDecoration: 'none', fontSize: '14px' }}>Forecast</Link>
                     <button style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
                         <span className="material-symbols-outlined" style={{ color: '#94a3b8', fontSize: '22px' }}>notifications</span>
                     </button>
@@ -133,218 +140,230 @@ export default function Settings() {
                         </button>
                     </nav>
 
-                    <button style={{
-                        width: '100%', marginTop: '32px',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-                        background: '#3b82f6', border: 'none', borderRadius: '10px',
-                        padding: '14px', color: 'white', fontSize: '14px', fontWeight: 600, cursor: 'pointer'
-                    }}>
-                        <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>save</span>
-                        Save Changes
+                    <button
+                        onClick={handleSave}
+                        style={{
+                            width: '100%', marginTop: '32px',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                            background: saved ? '#22c55e' : '#3b82f6', border: 'none', borderRadius: '10px',
+                            padding: '14px', color: 'white', fontSize: '14px', fontWeight: 600, cursor: 'pointer',
+                            transition: 'background 0.2s'
+                        }}
+                    >
+                        <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>{saved ? 'check_circle' : 'save'}</span>
+                        {saved ? 'Saved!' : 'Save Changes'}
                     </button>
                 </aside>
 
                 {/* Main Content */}
                 <main style={{ flex: 1 }}>
-                    {/* Measurement Units */}
-                    <section style={{
-                        background: 'rgba(30, 41, 59, 0.5)', borderRadius: '16px',
-                        padding: '24px', marginBottom: '24px',
-                        border: '1px solid rgba(255,255,255,0.05)'
-                    }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
-                            <span className="material-symbols-outlined" style={{ color: '#eab308', fontSize: '20px' }}>straighten</span>
-                            <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'white', margin: 0 }}>Measurement Units</h3>
-                        </div>
-
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
-                            <div>
-                                <p style={{ fontSize: '12px', color: '#64748b', margin: '0 0 8px 0' }}>Temperature Scale</p>
-                                <div style={{ display: 'flex', background: '#1e293b', borderRadius: '8px', padding: '4px' }}>
-                                    <button
-                                        onClick={() => setTempUnit('celsius')}
-                                        style={{
-                                            flex: 1, padding: '10px', border: 'none', borderRadius: '6px', cursor: 'pointer',
-                                            background: tempUnit === 'celsius' ? '#334155' : 'transparent',
-                                            color: 'white', fontSize: '13px', fontWeight: 500
-                                        }}
-                                    >
-                                        Celsius (°C)
-                                    </button>
-                                    <button
-                                        onClick={() => setTempUnit('fahrenheit')}
-                                        style={{
-                                            flex: 1, padding: '10px', border: 'none', borderRadius: '6px', cursor: 'pointer',
-                                            background: tempUnit === 'fahrenheit' ? '#334155' : 'transparent',
-                                            color: 'white', fontSize: '13px', fontWeight: 500
-                                        }}
-                                    >
-                                        Fahrenheit (°F)
-                                    </button>
-                                </div>
-                            </div>
-                            <div>
-                                <p style={{ fontSize: '12px', color: '#64748b', margin: '0 0 8px 0' }}>Wind Speed</p>
-                                <select style={{
-                                    width: '100%', padding: '12px 16px', background: '#1e293b', border: '1px solid #334155',
-                                    borderRadius: '8px', color: 'white', fontSize: '13px', outline: 'none'
-                                }}>
-                                    <option>Kilometers per hour (km/h)</option>
-                                    <option>Miles per hour (mph)</option>
-                                    <option>Knots</option>
-                                </select>
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* Alert Sensitivity */}
-                    <section style={{
-                        background: 'rgba(30, 41, 59, 0.5)', borderRadius: '16px',
-                        padding: '24px', marginBottom: '24px',
-                        border: '1px solid rgba(255,255,255,0.05)'
-                    }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
-                            <span className="material-symbols-outlined" style={{ color: '#3b82f6', fontSize: '20px' }}>sensors</span>
-                            <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'white', margin: 0 }}>Alert Sensitivity</h3>
-                        </div>
-
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                    <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(239, 68, 68, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                        <span className="material-symbols-outlined" style={{ color: '#ef4444', fontSize: '20px' }}>warning</span>
-                                    </div>
-                                    <div>
-                                        <p style={{ fontSize: '14px', fontWeight: 500, color: 'white', margin: 0 }}>Extreme Alerts</p>
-                                        <p style={{ fontSize: '12px', color: '#64748b', margin: '2px 0 0 0' }}>Tornadoes, severe floods, hurricane warnings.</p>
-                                    </div>
-                                </div>
-                                <Toggle checked={extremeAlerts} onChange={setExtremeAlerts} />
+                    {/* General & Units Section */}
+                    {activeSection === 'general' && (
+                        <section style={{
+                            background: 'rgba(30, 41, 59, 0.5)', borderRadius: '16px',
+                            padding: '24px', marginBottom: '24px',
+                            border: '1px solid rgba(255,255,255,0.05)'
+                        }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
+                                <span className="material-symbols-outlined" style={{ color: '#eab308', fontSize: '20px' }}>straighten</span>
+                                <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'white', margin: 0 }}>Measurement Units</h3>
                             </div>
 
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                    <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(249, 115, 22, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                        <span className="material-symbols-outlined" style={{ color: '#f97316', fontSize: '20px' }}>thunderstorm</span>
-                                    </div>
-                                    <div>
-                                        <p style={{ fontSize: '14px', fontWeight: 500, color: 'white', margin: 0 }}>Severe Weather</p>
-                                        <p style={{ fontSize: '12px', color: '#64748b', margin: '2px 0 0 0' }}>Lightning storms, high wind advisories.</p>
-                                    </div>
-                                </div>
-                                <Toggle checked={severeWeather} onChange={setSevereWeather} />
-                            </div>
-
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0' }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                    <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(59, 130, 246, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                        <span className="material-symbols-outlined" style={{ color: '#3b82f6', fontSize: '20px' }}>info</span>
-                                    </div>
-                                    <div>
-                                        <p style={{ fontSize: '14px', fontWeight: 500, color: 'white', margin: 0 }}>General Advisories</p>
-                                        <p style={{ fontSize: '12px', color: '#64748b', margin: '2px 0 0 0' }}>Rain onset, frost warnings, UV index spikes.</p>
-                                    </div>
-                                </div>
-                                <Toggle checked={generalAdvisories} onChange={setGeneralAdvisories} />
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* Notification Channels */}
-                    <section style={{
-                        background: 'rgba(30, 41, 59, 0.5)', borderRadius: '16px',
-                        padding: '24px', marginBottom: '24px',
-                        border: '1px solid rgba(255,255,255,0.05)'
-                    }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
-                            <span className="material-symbols-outlined" style={{ color: '#3b82f6', fontSize: '20px' }}>send</span>
-                            <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'white', margin: 0 }}>Notification Channels</h3>
-                        </div>
-
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '32px' }}>
-                            <div style={{ background: '#1e293b', borderRadius: '12px', padding: '20px', textAlign: 'center' }}>
-                                <span className="material-symbols-outlined" style={{ color: '#94a3b8', fontSize: '28px', marginBottom: '8px', display: 'block' }}>mail</span>
-                                <p style={{ fontSize: '13px', fontWeight: 500, color: 'white', margin: '0 0 12px 0' }}>Email Reports</p>
-                                <Toggle checked={emailReports} onChange={setEmailReports} />
-                            </div>
-                            <div style={{ background: '#1e293b', borderRadius: '12px', padding: '20px', textAlign: 'center' }}>
-                                <span className="material-symbols-outlined" style={{ color: '#94a3b8', fontSize: '28px', marginBottom: '8px', display: 'block' }}>sms</span>
-                                <p style={{ fontSize: '13px', fontWeight: 500, color: 'white', margin: '0 0 12px 0' }}>SMS Alerts</p>
-                                <Toggle checked={smsAlerts} onChange={setSmsAlerts} />
-                            </div>
-                            <div style={{ background: '#1e293b', borderRadius: '12px', padding: '20px', textAlign: 'center' }}>
-                                <span className="material-symbols-outlined" style={{ color: '#94a3b8', fontSize: '28px', marginBottom: '8px', display: 'block' }}>notifications_active</span>
-                                <p style={{ fontSize: '13px', fontWeight: 500, color: 'white', margin: '0 0 12px 0' }}>Push Notifications</p>
-                                <Toggle checked={pushNotifications} onChange={setPushNotifications} />
-                            </div>
-                        </div>
-
-                        {/* Quiet Hours */}
-                        <div style={{ background: '#1e293b', borderRadius: '12px', padding: '20px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
                                 <div>
-                                    <p style={{ fontSize: '14px', fontWeight: 500, color: 'white', margin: 0 }}>Quiet Hours</p>
-                                    <p style={{ fontSize: '12px', color: '#64748b', margin: '2px 0 0 0' }}>Disable non-emergency alerts during rest periods.</p>
-                                </div>
-                                <Toggle checked={quietHours} onChange={setQuietHours} />
-                            </div>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                                <div>
-                                    <p style={{ fontSize: '11px', color: '#64748b', margin: '0 0 6px 0' }}>From</p>
-                                    <input type="text" defaultValue="10:00 PM" style={{ width: '100%', padding: '12px', background: '#0f172a', border: '1px solid #334155', borderRadius: '8px', color: 'white', fontSize: '13px' }} />
+                                    <p style={{ fontSize: '12px', color: '#64748b', margin: '0 0 8px 0' }}>Temperature Scale</p>
+                                    <div style={{ display: 'flex', background: '#1e293b', borderRadius: '8px', padding: '4px' }}>
+                                        <button
+                                            onClick={() => setTempUnit('celsius')}
+                                            style={{
+                                                flex: 1, padding: '10px', border: 'none', borderRadius: '6px', cursor: 'pointer',
+                                                background: tempUnit === 'celsius' ? '#334155' : 'transparent',
+                                                color: 'white', fontSize: '13px', fontWeight: 500
+                                            }}
+                                        >
+                                            Celsius (°C)
+                                        </button>
+                                        <button
+                                            onClick={() => setTempUnit('fahrenheit')}
+                                            style={{
+                                                flex: 1, padding: '10px', border: 'none', borderRadius: '6px', cursor: 'pointer',
+                                                background: tempUnit === 'fahrenheit' ? '#334155' : 'transparent',
+                                                color: 'white', fontSize: '13px', fontWeight: 500
+                                            }}
+                                        >
+                                            Fahrenheit (°F)
+                                        </button>
+                                    </div>
                                 </div>
                                 <div>
-                                    <p style={{ fontSize: '11px', color: '#64748b', margin: '0 0 6px 0' }}>To</p>
-                                    <input type="text" defaultValue="07:00 AM" style={{ width: '100%', padding: '12px', background: '#0f172a', border: '1px solid #334155', borderRadius: '8px', color: 'white', fontSize: '13px' }} />
+                                    <p style={{ fontSize: '12px', color: '#64748b', margin: '0 0 8px 0' }}>Wind Speed</p>
+                                    <select style={{
+                                        width: '100%', padding: '12px 16px', background: '#1e293b', border: '1px solid #334155',
+                                        borderRadius: '8px', color: 'white', fontSize: '13px', outline: 'none'
+                                    }}>
+                                        <option>Kilometers per hour (km/h)</option>
+                                        <option>Miles per hour (mph)</option>
+                                        <option>Knots</option>
+                                    </select>
                                 </div>
                             </div>
-                        </div>
-                    </section>
+                        </section>
+                    )}
 
-                    {/* Monitored Locations */}
-                    <section style={{
-                        background: 'rgba(30, 41, 59, 0.5)', borderRadius: '16px',
-                        padding: '24px',
-                        border: '1px solid rgba(255,255,255,0.05)'
-                    }}>
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <span className="material-symbols-outlined" style={{ color: '#3b82f6', fontSize: '20px' }}>location_on</span>
-                                <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'white', margin: 0 }}>Monitored Locations</h3>
+                    {/* Alert Logic Section */}
+                    {activeSection === 'alerts' && (
+                        <section style={{
+                            background: 'rgba(30, 41, 59, 0.5)', borderRadius: '16px',
+                            padding: '24px', marginBottom: '24px',
+                            border: '1px solid rgba(255,255,255,0.05)'
+                        }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
+                                <span className="material-symbols-outlined" style={{ color: '#3b82f6', fontSize: '20px' }}>sensors</span>
+                                <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'white', margin: 0 }}>Alert Sensitivity</h3>
                             </div>
-                            <button style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'none', border: 'none', color: '#3b82f6', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}>
-                                <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>add</span>
-                                Add New
-                            </button>
-                        </div>
 
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                            {locations.map((loc, i) => (
-                                <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', background: '#1e293b', borderRadius: '12px' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                        <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(59, 130, 246, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                            <span className="material-symbols-outlined" style={{ color: '#3b82f6', fontSize: '20px' }}>home</span>
+                                        <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(239, 68, 68, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                            <span className="material-symbols-outlined" style={{ color: '#ef4444', fontSize: '20px' }}>warning</span>
                                         </div>
                                         <div>
-                                            <p style={{ fontSize: '14px', fontWeight: 500, color: 'white', margin: 0 }}>{loc.name}</p>
-                                            <p style={{ fontSize: '12px', color: '#64748b', margin: '2px 0 0 0' }}>{loc.location} • {loc.coords}</p>
+                                            <p style={{ fontSize: '14px', fontWeight: 500, color: 'white', margin: 0 }}>Extreme Alerts</p>
+                                            <p style={{ fontSize: '12px', color: '#64748b', margin: '2px 0 0 0' }}>Tornadoes, severe floods, hurricane warnings.</p>
                                         </div>
                                     </div>
+                                    <Toggle checked={extremeAlerts} onChange={setExtremeAlerts} />
+                                </div>
+
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                        {loc.active && (
-                                            <span style={{ background: 'rgba(34, 197, 94, 0.15)', color: '#22c55e', padding: '4px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 600 }}>ACTIVE</span>
-                                        )}
-                                        <button style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}>
-                                            <span className="material-symbols-outlined" style={{ color: '#64748b', fontSize: '20px' }}>edit</span>
-                                        </button>
-                                        <button style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}>
-                                            <span className="material-symbols-outlined" style={{ color: '#64748b', fontSize: '20px' }}>delete</span>
-                                        </button>
+                                        <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(249, 115, 22, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                            <span className="material-symbols-outlined" style={{ color: '#f97316', fontSize: '20px' }}>thunderstorm</span>
+                                        </div>
+                                        <div>
+                                            <p style={{ fontSize: '14px', fontWeight: 500, color: 'white', margin: 0 }}>Severe Weather</p>
+                                            <p style={{ fontSize: '12px', color: '#64748b', margin: '2px 0 0 0' }}>Lightning storms, high wind advisories.</p>
+                                        </div>
+                                    </div>
+                                    <Toggle checked={severeWeather} onChange={setSevereWeather} />
+                                </div>
+
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                        <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(59, 130, 246, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                            <span className="material-symbols-outlined" style={{ color: '#3b82f6', fontSize: '20px' }}>info</span>
+                                        </div>
+                                        <div>
+                                            <p style={{ fontSize: '14px', fontWeight: 500, color: 'white', margin: 0 }}>General Advisories</p>
+                                            <p style={{ fontSize: '12px', color: '#64748b', margin: '2px 0 0 0' }}>Rain onset, frost warnings, UV index spikes.</p>
+                                        </div>
+                                    </div>
+                                    <Toggle checked={generalAdvisories} onChange={setGeneralAdvisories} />
+                                </div>
+                            </div>
+                        </section>
+                    )}
+
+                    {/* Delivery Channels Section */}
+                    {activeSection === 'delivery' && (
+                        <section style={{
+                            background: 'rgba(30, 41, 59, 0.5)', borderRadius: '16px',
+                            padding: '24px', marginBottom: '24px',
+                            border: '1px solid rgba(255,255,255,0.05)'
+                        }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
+                                <span className="material-symbols-outlined" style={{ color: '#3b82f6', fontSize: '20px' }}>send</span>
+                                <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'white', margin: 0 }}>Notification Channels</h3>
+                            </div>
+
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '32px' }}>
+                                <div style={{ background: '#1e293b', borderRadius: '12px', padding: '20px', textAlign: 'center' }}>
+                                    <span className="material-symbols-outlined" style={{ color: '#94a3b8', fontSize: '28px', marginBottom: '8px', display: 'block' }}>mail</span>
+                                    <p style={{ fontSize: '13px', fontWeight: 500, color: 'white', margin: '0 0 12px 0' }}>Email Reports</p>
+                                    <Toggle checked={emailReports} onChange={setEmailReports} />
+                                </div>
+                                <div style={{ background: '#1e293b', borderRadius: '12px', padding: '20px', textAlign: 'center' }}>
+                                    <span className="material-symbols-outlined" style={{ color: '#94a3b8', fontSize: '28px', marginBottom: '8px', display: 'block' }}>sms</span>
+                                    <p style={{ fontSize: '13px', fontWeight: 500, color: 'white', margin: '0 0 12px 0' }}>SMS Alerts</p>
+                                    <Toggle checked={smsAlerts} onChange={setSmsAlerts} />
+                                </div>
+                                <div style={{ background: '#1e293b', borderRadius: '12px', padding: '20px', textAlign: 'center' }}>
+                                    <span className="material-symbols-outlined" style={{ color: '#94a3b8', fontSize: '28px', marginBottom: '8px', display: 'block' }}>notifications_active</span>
+                                    <p style={{ fontSize: '13px', fontWeight: 500, color: 'white', margin: '0 0 12px 0' }}>Push Notifications</p>
+                                    <Toggle checked={pushNotifications} onChange={setPushNotifications} />
+                                </div>
+                            </div>
+
+                            {/* Quiet Hours */}
+                            <div style={{ background: '#1e293b', borderRadius: '12px', padding: '20px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                                    <div>
+                                        <p style={{ fontSize: '14px', fontWeight: 500, color: 'white', margin: 0 }}>Quiet Hours</p>
+                                        <p style={{ fontSize: '12px', color: '#64748b', margin: '2px 0 0 0' }}>Disable non-emergency alerts during rest periods.</p>
+                                    </div>
+                                    <Toggle checked={quietHours} onChange={setQuietHours} />
+                                </div>
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                                    <div>
+                                        <p style={{ fontSize: '11px', color: '#64748b', margin: '0 0 6px 0' }}>From</p>
+                                        <input type="text" defaultValue="10:00 PM" style={{ width: '100%', padding: '12px', background: '#0f172a', border: '1px solid #334155', borderRadius: '8px', color: 'white', fontSize: '13px' }} />
+                                    </div>
+                                    <div>
+                                        <p style={{ fontSize: '11px', color: '#64748b', margin: '0 0 6px 0' }}>To</p>
+                                        <input type="text" defaultValue="07:00 AM" style={{ width: '100%', padding: '12px', background: '#0f172a', border: '1px solid #334155', borderRadius: '8px', color: 'white', fontSize: '13px' }} />
                                     </div>
                                 </div>
-                            ))}
-                        </div>
-                    </section>
+                            </div>
+                        </section>
+                    )}
+
+                    {/* Saved Locations Section */}
+                    {activeSection === 'locations' && (
+                        <section style={{
+                            background: 'rgba(30, 41, 59, 0.5)', borderRadius: '16px',
+                            padding: '24px',
+                            border: '1px solid rgba(255,255,255,0.05)'
+                        }}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    <span className="material-symbols-outlined" style={{ color: '#3b82f6', fontSize: '20px' }}>location_on</span>
+                                    <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'white', margin: 0 }}>Monitored Locations</h3>
+                                </div>
+                                <button style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'none', border: 'none', color: '#3b82f6', fontSize: '13px', fontWeight: 600, cursor: 'pointer' }}>
+                                    <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>add</span>
+                                    Add New
+                                </button>
+                            </div>
+
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                                {locations.map((loc, i) => (
+                                    <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', background: '#1e293b', borderRadius: '12px' }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                            <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(59, 130, 246, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                <span className="material-symbols-outlined" style={{ color: '#3b82f6', fontSize: '20px' }}>home</span>
+                                            </div>
+                                            <div>
+                                                <p style={{ fontSize: '14px', fontWeight: 500, color: 'white', margin: 0 }}>{loc.name}</p>
+                                                <p style={{ fontSize: '12px', color: '#64748b', margin: '2px 0 0 0' }}>{loc.location} • {loc.coords}</p>
+                                            </div>
+                                        </div>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                            {loc.active && (
+                                                <span style={{ background: 'rgba(34, 197, 94, 0.15)', color: '#22c55e', padding: '4px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 600 }}>ACTIVE</span>
+                                            )}
+                                            <button style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}>
+                                                <span className="material-symbols-outlined" style={{ color: '#64748b', fontSize: '20px' }}>edit</span>
+                                            </button>
+                                            <button style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}>
+                                                <span className="material-symbols-outlined" style={{ color: '#64748b', fontSize: '20px' }}>delete</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
                 </main>
             </div>
         </div>
